@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Billigence Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism.min.css">
+
+
+    <style>
+        .help-label {
+            display: block;
+        }
+
+        .help {
+            color: #757575;
+            font-size: 12px;
+            position: relative;
+            top: -5px;
+        }
+
+        input[type=number].form-control {
+            display: inline;
+        }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        #embedding-clipper {
+            height: 600px;
+            overflow-y: hidden;
+        }
+
+        #embedding-wrapper {
+            height: calc(600px + 27px);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="column">
+            <h1>Link</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Advantages</h5>
+                    <ul>
+                        <li>Works without third party cookies</li>
+                        <li>Really simple</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Disadvantages</h5>
+                    <ul>
+                        <li>
+                            Opens a new tab
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Code & Configuration: </h2>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="link-embed-view" checked>
+                <label class="form-check-label help-label" for="link-embed-view">Embedded view
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="You usually want to keep this on. If you enable this, users will not see 'back button' that would allow them to navigate to other parts of tableau site.If you disable this, it will function like a normal link."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="link-tabs" checked>
+                <label class="form-check-label help-label" for="link-tabs">Tabs
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="If this is enabled and there are multiple Views in the Workbook, tabs will show up and allow user to switch between different Views."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="link-toolbar" checked>
+                <label class="form-check-label help-label" for="link-toolbar">Toolbar
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Disabling toolbar will hide the bar with buttons like 'share', 'edit', 'data details', ..."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="link-tooltip" checked>
+                <label class="form-check-label help-label" for="link-tooltip">Toolbar
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Disabling tooltip will hide info shown when user clicks or hovers over data."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div>
+                <a class="btn btn-primary"
+                   href="https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview/841fe0e1-918e-4393-b2ba-c445f80dc3d9/dd332e97-d978-4e5f-8619-58f2f7ece2ba?:origin=card_share_link&:embed=y&:tabs=no&:toolbar=no&:tooltip=no&:dataDetails=y"
+                   target="_blank">Try it</a>
+            </div>
+            <pre><code class="language-html">&lt;a href="{link_to_view}?:origin=card_share_link&:embed=y&:tabs=no&:toolbar=no&:tooltip=no"&gt;&lt;/a&gt;</code></pre>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Additional resources</h2>
+        <a href="https://help.tableau.com/current/pro/desktop/en-us/embed_list.htm">Documentation</a>
+    </div>
+
+
+    <!---------------------------------->
+    <div class="row">
+        <div class="column">
+            <h1>Embedding</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Advantages</h5>
+                    <ul>
+                        <li>Dashboard is embedded within a website</li>
+                        <li>Still really simple</li>
+                        <li>Website can interact with the dashboard</li>
+                        <li>Good documentation for developers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Disadvantages</h5>
+                    <ul>
+                        <li>
+                            Embeddings that require login <strong>don't work without third party cookies</strong>
+                            <ul>
+                                <li>Third party cookies are disabled by default on safari (~20% internet
+                                    users) and <strong>will be disabled by default on chrome in 2024 Q3</strong>
+                                </li>
+                                <li>It is possible that tableau will not find a solution for this type of embedding in
+                                    time
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <li>
+                        Users are required to authenticate to tableau
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Code & Configuration: </h2>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="embed1-editing" checked>
+                <label class="form-check-label help-label" for="embed1-editing">Editing mode
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Enabling this will let users edit the dashboard"
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="embed1-tabs" checked>
+                <label class="form-check-label help-label" for="embed1-tabs">Tabs
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="If this is enabled and there are multiple Views in the Workbook, tabs will show up and allow user to switch between different Views."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="embed1-toolbar" checked>
+                <label class="form-check-label help-label" for="embed1-toolbar">Toolbar
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Disabling toolbar will hide the bar with buttons like 'share', 'edit', 'data details', ..."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="embed1-width">Width:<i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                   title="If left empty, embedding will try to be as wide as possible"
+                                                   class="bi bi-question-circle-fill help"></i></label>
+                <input type="number" class="form-control" id="embed1-width" placeholder="Enter width">
+            </div>
+            <div class="form-group">
+                <label for="embed1-height">Height:<i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="If left empty, embedding will try to be as tall as possible"
+                                                     class="bi bi-question-circle-fill help"></i></label>
+                <input type="number" class="form-control" id="embed1-height" placeholder="Enter height">
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="embed1-links" checked>
+                <label class="form-check-label help-label" for="embed1-links">Disable url actions
+                    <i data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="If enabled, links in the embedding will not work."
+                       class="bi bi-question-circle-fill help"></i>
+                </label>
+            </div>
+            <div>
+                <span>Device:</span>
+                <select class="form-select" aria-label="Default select example">
+                    <option value="1">Default</option>
+                    <option value="2">Desktop</option>
+                    <option value="3">Tablet</option>
+                    <option value="4">Phone</option>
+                </select>
+            </div>
+            <div>
+                <script type='module'
+                        src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
+                <!-- use tableau-authoring-viz for editable -->
+                <tableau-viz id='tableau-viz'
+                             src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+                             toolbar='hidden' hide-tabs disable-url-actions=false>
+
+                </tableau-viz>
+            </div>
+
+
+            <pre><code class="language-html">
+&lt;script type='module'
+        src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'&gt;&lt;/script&gt;
+&lt;tableau-viz id='tableau-viz'
+             src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+             toolbar='hidden' hide-tabs disable-url-actions=false&gt;
+
+&lt;/tableau-viz&gt;
+            </code></pre>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Additional resources</h2>
+        <a href="https://help.tableau.com/current/api/embedding_api/en-us/index.html">Documentation</a>
+        <a href="https://developer.salesforce.com/tools/tableau/embedding-playground">Embedding playground</a>
+    </div>
+
+    <!---------------------------------->
+    <div class="row">
+        <div class="column">
+            <h1>Embedding with Connected apps</h1>
+            <h5 class="text-secondary">Looks like standard embedding but provides easier authentication for
+                users</h5>
+            This option is perfect for usecases where Tableau is a part of some greater app. It usually requires a bit
+            of programming. Tableau provides two types - Direct trust and OAuth2.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Advantages</h5>
+                    <ul>
+                        <li>Same as standard embedding</li>
+                        <li>Doesn't show tableau login screen</li>
+                        <li>Useful for application where the user is already logged in
+                            <ul>
+                                <li>Doesn't require login through tableau</li>
+                                <li>E.g: User logs into an admin panel with embedded tableau views and is automatically
+                                    logged in to tableau too
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Large companies usually have SSO <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                title="Short for single sign-on. It is a service that provides one login screen for all applications used by that company."
+                                                                class="bi bi-question-circle-fill help"></i> that can be
+                            used with OAuth 2 Connected apps
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Disadvantages</h5>
+                    <ul>
+                        <li>Requires a <i>backend server <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            title="Backend server runs code that the user cannot see. It is usually written in languages such as Java, Python or Javascript with node.js"
+                                                            class="bi bi-question-circle-fill help"></i></i> or OAuth2
+                            authentication service.
+                        </li>
+                        <li>
+                            At the moment, it also <strong>doesn't work without third party cookies</strong>
+                            <ul>
+                                <li>Tableau will likely update their code to work without third party cookies for this
+                                    solution soon
+                                </li>
+                                <li>Tableau currently doesn't provide a solution for embedding without third party
+                                    cookies
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Code & Configuration: </h2>
+            <h5 class="text-secondary">Configuration is the same as previous embedding, only extra logic for logging in
+                is added</h5>
+            <p class="text-secondary">This embedding is only for illustrative purpose. I used a public project to
+                illustrate how login can be skipped. The outcome is the same - user doesn't have to log in.<i
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right"
+                        title="The reason I didn't use real Connected apps is because running a backend server costs money."
+                        class="bi bi-question-circle-fill help"></i>
+            </p>
+            <div id="embedding-clipper">
+                <div id="embedding-wrapper">
+                    <tableau-viz id='tableau-viz'
+                                 src='https://public.tableau.com/views/DeveloperSuperstore/Overview'
+                                 toolbar='hidden' hide-tabs>
+                    </tableau-viz>
+                </div>
+            </div>
+
+            <h3>Direct trust</h3>
+            <p>
+                Direct trust allows application itself to authenticate the user. This means the application will require
+                some secure backend to store a secret key. To use Direct trust, go to tableau and create a
+                connected app following the
+                <a href="https://help.tableau.com/current/online/en-us/connected_apps_direct.htm">documentation</a>.
+            </p>
+            <p>After that, create a JWT token using parameters generated by Tableau in the previous step. Here is
+                example of Python code.</p>
+            <pre><code class="language-py">
+import jwt
+import datetime
+import uuid
+
+# example values:
+connectedAppClientId = "b0921b1b-6bba-45db-a06f-60c2bb8722cd"
+connectedAppSecretId = "64c3cb96-2792-4821-8a40-7f2c5710a0ab"
+connectedAppSecretKey = "pYtsRigSDTa4l7Eu4AZhlaF5wns690Zlk8nklcs="
+
+token = jwt.encode(
+	{
+		"iss": connectedAppClientId,
+		"exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
+		"jti": str(uuid.uuid4()),
+		"aud": "tableau",
+		"sub": "matej.frnka@gmail.com",
+		"scp": ["tableau:views:embed"]
+
+	},
+		connectedAppSecretKey,
+		algorithm = "HS256",
+		headers = {
+		'kid': connectedAppSecretId,
+		'iss': connectedAppClientId
+        }
+  )
+print(token)
+            </code></pre>
+            <p>Lastly, use embedding html code with <i>token</i> parameter, where you place the token.</p>
+            <pre><code class="language-html">
+&lt;script type='module'
+        src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'>&lt;/script&gt;
+&lt;tableau-viz id='tableau-viz'
+             src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+             token="your token generated in the previous step"&gt;
+&lt;/tableau-viz&gt;
+            </code></pre>
+            <h3>OAuth 2</h3>
+            <p>This connected app is perfect when a company already has SSO and they are willing to let you use it for
+                embedding. If they do not let you, it is still possible to use authentication
+                provider such as <a href="https://auth0.com/">Auth0</a> so that you don't have to make your own.</p>
+            <div class="alert alert-secondary">
+                <p class="mb-0" >You will need the SSO to return a JWT token containing values specified <a
+                        href="https://help.tableau.com/current/online/en-us/connected_apps_eas.htm#step-1-before-you-begin">here</a>
+                </p>
+            </div>
+            <p>To implement OAuth2 connected app, follow the <a
+                    href="https://help.tableau.com/current/online/en-us/connected_apps_eas.htm">documentation</a> to
+                create a connected app in Tableau.</p>
+            <p>Then, get <i>Issuer URL</i> and <i>JWKS URI</i> from the SSO - company's tech team will know what this
+                means.</p>
+            <p>Obtain JWT token from the SSO and enter it into the tableau embedding:</p>
+            <pre><code class="language-html">
+&lt;script type='module'
+        src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'>&lt;/script&gt;
+&lt;tableau-viz id='tableau-viz'
+             src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+             token="your token received from SSO"&gt;
+&lt;/tableau-viz&gt;
+            </code></pre>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-python.min.js"></script>
+
+<script>
+  // Initialize all tooltips on the page.
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+</script>
+</body>
+</html>
