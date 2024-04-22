@@ -515,7 +515,7 @@ print(token)
                         <p>Switch on the website interacting with the embedding:</p>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="apply-filter" checked>
-                            <label class="form-check-label help-label" for="apply-filter">Filter central region
+                            <label class="form-check-label help-label" for="apply-filter">Switch between Overview and Performance.
                             </label>
                         </div>
                         <p>Read more about this in the <a target="_blank"
@@ -525,7 +525,7 @@ print(token)
                     <div class="col-9">
                         <tableau-viz id='tableau-viz-interactions' style="height: 600px"
                                      src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
-                                     toolbar='top' hide-tabs disable-url-actions=false>
+                                     toolbar='hidden' disable-url-actions=false>
 
                         </tableau-viz>
                     </div>
@@ -533,25 +533,11 @@ print(token)
 
 
                       document.addEventListener("DOMContentLoaded", function () {
-                        const viz = document.getElementById('tableau-viz-interactions');
                         const applyFilterCheckbox = document.getElementById("apply-filter");
                         applyFilterCheckbox.addEventListener("change", function (event) {
-                          let sheet = viz.workbook.activeSheet;
-                          console.log("adsf")
-                          if (event.target.checked) {
-                            console.log("aa")
-                            sheet.applyRelativeDateFilterAsync(
-                              'Order Date',
-                              {
-                                anchorDate: new Date(Date.UTC(2022, 4, 13)),
-                                periodType: "years",
-                                rangeType: "last-n",
-                                rangeN: 1,
-                              }
-                            );
-                          } else {
-                            sheet.applyFilterAsync("Region", [], "replace");
-                          }
+                          const viz = document.getElementById('tableau-viz-interactions');
+                          let sheetName = (event.target.checked) ? "Overview" : "Performance"
+                          viz.workbook.activateSheetAsync(sheetName);
                         });
                       });
 
@@ -562,8 +548,10 @@ print(token)
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-3 p-0">
-                        <p>It is also possible to embed tableau into mobile app. You can check the <a href="https://www.tableau.com/blog/mobile-app-bootstrap-create-your-own-mobile-app-tableau-vizzes-62117">documentation</a>
-                            for more info. I personally didn't try this, and it seems there isn't much active development
+                        <p>It is also possible to embed tableau into mobile app. You can check the <a
+                                href="https://www.tableau.com/blog/mobile-app-bootstrap-create-your-own-mobile-app-tableau-vizzes-62117">documentation</a>
+                            for more info. I personally didn't try this, and it seems there isn't much active
+                            development
                             in this area.</p>
                     </div>
                     <div class="col-9 d-flex justify-content-center">
