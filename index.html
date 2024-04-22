@@ -20,6 +20,18 @@
         }
 
         h3 {
+            padding-top: 15px;
+        }
+
+        /*.form-check-input:checked {*/
+        /*    background-color: var(--bs-primary);*/
+        /*    border-color: var(--bs-primary);*/
+        /*}*/
+        /*.form-check-input{*/
+        /*    border-color: var(--bs-primary);*/
+        /*}*/
+
+        h3 {
             font-size: 1.25rem;
         }
 
@@ -99,7 +111,7 @@
                     <a class="nav-link" href="#ref-connected-apps">Connected Apps</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#ref-connected-apps">More possibilities</a>
+                    <a class="nav-link" href="#ref-more">More possibilities</a>
                 </li>
             </ul>
         </div>
@@ -183,11 +195,12 @@
                        class="bi bi-question-circle-fill help"></i>
                 </label>
             </div>
-            <div>
-                <a class="btn btn-primary"
+            <div class="pt-4 pb-4">
+                <a class="btn btn-secondary" style="padding: 10px 100px"
                    href="https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview/841fe0e1-918e-4393-b2ba-c445f80dc3d9/dd332e97-d978-4e5f-8619-58f2f7ece2ba?:origin=card_share_link&:embed=y&:tabs=no&:toolbar=no&:tooltip=no&:dataDetails=y"
                    target="_blank">Try it</a>
             </div>
+            HTML code:
             <pre><code class="language-html">&lt;a href="{link_to_view}?:origin=card_share_link&:embed=y&:tabs=no&:toolbar=no&:tooltip=no"&gt;&lt;/a&gt;</code></pre>
         </div>
     </div>
@@ -244,72 +257,80 @@
     <div class="row">
         <div class="col">
             <h3>Code & Configuration: </h3>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-3 p-0">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-editing" checked>
+                            <label class="form-check-label help-label" for="embed1-editing">Editing mode
+                                <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                   title="Enabling this will let users edit the dashboard"
+                                   class="bi bi-question-circle-fill help"></i>
+                            </label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-tabs" checked>
+                            <label class="form-check-label help-label" for="embed1-tabs">Tabs
+                                <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                   title="If this is enabled and there are multiple Views in the Workbook, tabs will show up and allow user to switch between different Views."
+                                   class="bi bi-question-circle-fill help"></i>
+                            </label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-links" checked>
+                            <label class="form-check-label help-label" for="embed1-links">Disable url actions
+                                <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                   title="If enabled, links in the embedding will not work."
+                                   class="bi bi-question-circle-fill help"></i>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="embed1-width">Width <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                               title="If left empty, embedding will try to be as wide as possible"
+                                                               class="bi bi-question-circle-fill help"></i></label>
+                            <input type="number" class="form-control" id="embed1-width" placeholder="Enter width">
+                        </div>
+                        <div class="form-group">
+                            <label for="embed1-height">Height <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                 title="If left empty, embedding will try to be as tall as possible"
+                                                                 class="bi bi-question-circle-fill help"></i></label>
+                            <input type="number" class="form-control" id="embed1-height" placeholder="Enter height">
+                        </div>
+                        <div>
+                            <span>Toolbar
+                                <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                   title="Hiding toolbar will hide the bar with buttons like 'share', 'edit', 'data details', ..."
+                                   class="bi bi-question-circle-fill help"></i></span>
+                            <select class="form-select" aria-label="Default select example">
+                                <option value="1">Hidden</option>
+                                <option value="2">Top</option>
+                                <option value="3">Bottom</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span>Device</span>
+                            <select class="form-select" aria-label="Default select example">
+                                <option value="1">Default</option>
+                                <option value="2">Desktop</option>
+                                <option value="3">Tablet</option>
+                                <option value="4">Phone</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-9" style="min-height: 600px;">
+                        <script type='module'
+                                src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
+                        <!-- use tableau-authoring-viz for editable -->
+                        <tableau-viz id='tableau-viz'
+                                     src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+                                     toolbar='top' hide-tabs disable-url-actions=false>
 
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="embed1-editing" checked>
-                <label class="form-check-label help-label" for="embed1-editing">Editing mode
-                    <i data-bs-toggle="tooltip" data-bs-placement="right"
-                       title="Enabling this will let users edit the dashboard"
-                       class="bi bi-question-circle-fill help"></i>
-                </label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="embed1-tabs" checked>
-                <label class="form-check-label help-label" for="embed1-tabs">Tabs
-                    <i data-bs-toggle="tooltip" data-bs-placement="right"
-                       title="If this is enabled and there are multiple Views in the Workbook, tabs will show up and allow user to switch between different Views."
-                       class="bi bi-question-circle-fill help"></i>
-                </label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="embed1-toolbar" checked>
-                <label class="form-check-label help-label" for="embed1-toolbar">Toolbar
-                    <i data-bs-toggle="tooltip" data-bs-placement="right"
-                       title="Disabling toolbar will hide the bar with buttons like 'share', 'edit', 'data details', ..."
-                       class="bi bi-question-circle-fill help"></i>
-                </label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="embed1-links" checked>
-                <label class="form-check-label help-label" for="embed1-links">Disable url actions
-                    <i data-bs-toggle="tooltip" data-bs-placement="right"
-                       title="If enabled, links in the embedding will not work."
-                       class="bi bi-question-circle-fill help"></i>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="embed1-width">Width:<i data-bs-toggle="tooltip" data-bs-placement="right"
-                                                   title="If left empty, embedding will try to be as wide as possible"
-                                                   class="bi bi-question-circle-fill help"></i></label>
-                <input type="number" class="form-control" id="embed1-width" placeholder="Enter width">
-            </div>
-            <div class="form-group">
-                <label for="embed1-height">Height:<i data-bs-toggle="tooltip" data-bs-placement="right"
-                                                     title="If left empty, embedding will try to be as tall as possible"
-                                                     class="bi bi-question-circle-fill help"></i></label>
-                <input type="number" class="form-control" id="embed1-height" placeholder="Enter height">
-            </div>
-            <div>
-                <span>Device:</span>
-                <select class="form-select" aria-label="Default select example">
-                    <option value="1">Default</option>
-                    <option value="2">Desktop</option>
-                    <option value="3">Tablet</option>
-                    <option value="4">Phone</option>
-                </select>
-            </div>
-            <div>
-                <script type='module'
-                        src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
-                <!-- use tableau-authoring-viz for editable -->
-                <tableau-viz id='tableau-viz'
-                             src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
-                             toolbar='hidden' hide-tabs disable-url-actions=false>
-
-                </tableau-viz>
+                        </tableau-viz>
+                    </div>
+                </div>
             </div>
 
-
+            HTML code:
             <pre><code class="language-html">
 &lt;script type='module'
         src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'&gt;&lt;/script&gt;
@@ -479,6 +500,77 @@ print(token)
              token="your token received from SSO"&gt;
 &lt;/tableau-viz&gt;
             </code></pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <h2 id="ref-more">More embedding options</h2>
+            <h4>Interacting with embeddings</h4>
+
+            <p>It is possible to interact with a tableau embedding from the main website. For example, developers could
+                apply a filter to the tableau dashboard when user clicks a button on the website.</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-3 p-0">
+                        <p>Switch on the website interacting with the embedding:</p>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="apply-filter" checked>
+                            <label class="form-check-label help-label" for="apply-filter">Filter central region
+                            </label>
+                        </div>
+                        <p>Read more about this in the <a target="_blank"
+                                                          href="https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_interact.html">developer
+                            documentation</a></p>
+                    </div>
+                    <div class="col-9">
+                        <tableau-viz id='tableau-viz-interactions' style="height: 600px"
+                                     src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+                                     toolbar='top' hide-tabs disable-url-actions=false>
+
+                        </tableau-viz>
+                    </div>
+                    <script>
+
+
+                      document.addEventListener("DOMContentLoaded", function () {
+                        const viz = document.getElementById('tableau-viz-interactions');
+                        const applyFilterCheckbox = document.getElementById("apply-filter");
+                        applyFilterCheckbox.addEventListener("change", function (event) {
+                          let sheet = viz.workbook.activeSheet;
+                          console.log("adsf")
+                          if (event.target.checked) {
+                            console.log("aa")
+                            sheet.applyRelativeDateFilterAsync(
+                              'Order Date',
+                              {
+                                anchorDate: new Date(Date.UTC(2022, 4, 13)),
+                                periodType: "years",
+                                rangeType: "last-n",
+                                rangeN: 1,
+                              }
+                            );
+                          } else {
+                            sheet.applyFilterAsync("Region", [], "replace");
+                          }
+                        });
+                      });
+
+                    </script>
+                </div>
+            </div>
+            <h4>Embedding in mobile phones</h4>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-3 p-0">
+                        <p>It is also possible to embed tableau into mobile app. You can check the <a href="https://www.tableau.com/blog/mobile-app-bootstrap-create-your-own-mobile-app-tableau-vizzes-62117">documentation</a>
+                            for more info. I personally didn't try this, and it seems there isn't much active development
+                            in this area.</p>
+                    </div>
+                    <div class="col-9 d-flex justify-content-center">
+                        <img style="width: 100%;" src="/mobile_app.png" alt="Image of mobile app">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
