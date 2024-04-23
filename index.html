@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism.min.css">
     <link rel="icon" href="/favicon.ico">
-
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script type='module'
+            src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
     <style>
         :root {
             --bs-primary: #BE1E2D; /* New primary color */
@@ -23,7 +25,8 @@
             padding-top: 15px;
             font-size: 1.25rem;
         }
-        h5{
+
+        h5 {
             font-size: 1.1rem;
         }
 
@@ -71,6 +74,35 @@
             height: calc(600px + 27px);
         }
     </style>
+    <script>
+      function generateLink(url, embed, tabs, toolbar, tooltip) {
+        return `${url}?:origin=card_share_link&:embed=${embed ? 'y' : 'n'}&:tabs=${tabs ? 'y' : 'n'}&:toolbar=${toolbar ? 'y' : 'n'}&:tooltip=${tooltip ? 'y' : 'n'}`
+      }
+
+      function generateLinkHtmlExample(embed, tabs, toolbar, tooltip) {
+        let res = `<a href="${generateLink('{your url}', embed, tabs, toolbar, tooltip)}">Link</a>`
+        return Prism.highlight(res, Prism.languages.html, 'html');
+      }
+
+      function generateEmbedding(tabs, edit, urlAction, width, height, toolbar, device) {
+        let embedding = edit ? 'tableau-authoring-viz' : 'tableau-viz'
+        let heightStr = (height === undefined || height === '') ? '' : ` height="${height}"`
+        let widthStr = (width === undefined || width === '') ? '' : ` width="${width}"`
+        console.log(height)
+        let html = `
+<${embedding} id='tableau-viz'
+                        src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
+                        toolbar='${toolbar}'${tabs ? '' : ' hide-tabs'}${urlAction ? ' disable-url-actions': ''} device='${device}'${heightStr}${widthStr}>
+
+</${embedding}>`
+        return html
+      }
+
+      function generateEmbeddingExample(tabs, edit, urlAction, width, height, toolbar, device) {
+        let main = generateEmbedding(tabs, edit, urlAction, width, height, toolbar, device)
+        return Prism.highlight(main, Prism.languages.html, 'html');
+      }
+    </script>
 </head>
 <body>
 <!-- Bootstrap Navbar -->
@@ -152,12 +184,12 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"
+         x-data="{ code: 'Loading', content: 'Loading', embed: false, tabs:false, toolbar:false, tooltip:false  }">
         <div class="col">
             <h3>Code & Configuration: </h3>
-
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="link-embed-view" checked>
+                <input class="form-check-input" type="checkbox" role="switch" id="link-embed-view" x-model="embed">
                 <label class="form-check-label help-label" for="link-embed-view">Embedded view
                     <i data-bs-toggle="tooltip" data-bs-placement="right"
                        title="If you enable this, the Tableau controls will be hidden - users will not see 'back button' that would allow them to navigate to other parts of tableau site.If you disable this, it will function like a normal link."
@@ -165,7 +197,7 @@
                 </label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="link-tabs" checked>
+                <input class="form-check-input" type="checkbox" role="switch" id="link-tabs" x-model="tabs">
                 <label class="form-check-label help-label" for="link-tabs">Tabs
                     <i data-bs-toggle="tooltip" data-bs-placement="right"
                        title="If this is enabled and there are multiple Views in the Workbook, tabs will show up and allow user to switch between different Views."
@@ -173,7 +205,7 @@
                 </label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="link-toolbar" checked>
+                <input class="form-check-input" type="checkbox" role="switch" id="link-toolbar" x-model="toolbar">
                 <label class="form-check-label help-label" for="link-toolbar">Toolbar
                     <i data-bs-toggle="tooltip" data-bs-placement="right"
                        title="Disabling toolbar will hide the bar with buttons like 'share', 'edit', 'data details', ..."
@@ -181,7 +213,7 @@
                 </label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="link-tooltip" checked>
+                <input class="form-check-input" type="checkbox" role="switch" id="link-tooltip" x-model="tooltip">
                 <label class="form-check-label help-label" for="link-tooltip">Tooltip
                     <i data-bs-toggle="tooltip" data-bs-placement="right"
                        title="Disabling tooltip will hide info shown when user clicks or hovers over data."
@@ -190,11 +222,15 @@
             </div>
             <div class="pt-4 pb-4">
                 <a class="btn btn-secondary" style="padding: 10px 100px"
-                   href="https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview/841fe0e1-918e-4393-b2ba-c445f80dc3d9/dd332e97-d978-4e5f-8619-58f2f7ece2ba?:origin=card_share_link&:embed=y&:tabs=no&:toolbar=no&:tooltip=no&:dataDetails=y"
-                   target="_blank">Try it</a>
+                   :href="code"
+                   target="_blank"
+                   x-effect="code = generateLink('https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview/841fe0e1-918e-4393-b2ba-c445f80dc3d9/dd332e97-d978-4e5f-8619-58f2f7ece2ba', embed, tabs, toolbar, tooltip)">Try
+                    it</a>
             </div>
             HTML code:
-            <pre><code class="language-html">&lt;a href="{link_to_view}?:origin=card_share_link&:embed=y&:tabs=no&:toolbar=no&:tooltip=no"&gt;&lt;/a&gt;</code></pre>
+            <pre><code class="language-html"
+                       x-effect="content = generateLinkHtmlExample(embed, tabs, toolbar, tooltip)"
+                       x-html="content"></code></pre>
         </div>
     </div>
     <div class="row">
@@ -247,14 +283,17 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"
+         x-data="{ code: 'Loading', content: 'Loading', tabs: false, edit:false, urlAction:false,
+         width:undefined, height:undefined, toolbar: 'hidden', device: 'default' }">
         <div class="col">
             <h3>Code & Configuration: </h3>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-3 p-0">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-editing" checked>
+                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-editing"
+                                   x-model="edit">
                             <label class="form-check-label help-label" for="embed1-editing">Editing mode
                                 <i data-bs-toggle="tooltip" data-bs-placement="right"
                                    title="Enabling this will let users edit the dashboard"
@@ -262,7 +301,8 @@
                             </label>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-tabs" checked>
+                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-tabs"
+                                   x-model="tabs" :disabled="edit">
                             <label class="form-check-label help-label" for="embed1-tabs">Tabs
                                 <i data-bs-toggle="tooltip" data-bs-placement="right"
                                    title="If this is enabled and there are multiple Views in the Workbook, tabs will show up and allow user to switch between different Views."
@@ -270,7 +310,8 @@
                             </label>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-links" checked>
+                            <input class="form-check-input" type="checkbox" role="switch" id="embed1-links"
+                                   x-model="urlAction" :disabled="edit">
                             <label class="form-check-label help-label" for="embed1-links">Disable url actions
                                 <i data-bs-toggle="tooltip" data-bs-placement="right"
                                    title="If enabled, links in the embedding will not work."
@@ -279,59 +320,52 @@
                         </div>
                         <div class="form-group">
                             <label for="embed1-width">Width <i data-bs-toggle="tooltip" data-bs-placement="right"
-                                                               title="If left empty, embedding will try to be as wide as possible"
+                                                               title="Both width and height must be filled in for this to take effect. If left empty, embedding will try to be as wide as possible"
                                                                class="bi bi-question-circle-fill help"></i></label>
-                            <input type="number" class="form-control" id="embed1-width" placeholder="Enter width">
+                            <input type="number" class="form-control" id="embed1-width" placeholder="Enter width"
+                                   x-model="width">
                         </div>
                         <div class="form-group">
                             <label for="embed1-height">Height <i data-bs-toggle="tooltip" data-bs-placement="right"
-                                                                 title="If left empty, embedding will try to be as tall as possible"
+                                                                 title="Both width and height must be filled in for this to take effect. If left empty, embedding will try to be as tall as possible."
                                                                  class="bi bi-question-circle-fill help"></i></label>
-                            <input type="number" class="form-control" id="embed1-height" placeholder="Enter height">
+                            <input type="number" class="form-control" id="embed1-height" placeholder="Enter height"
+                                   x-model="height">
                         </div>
                         <div>
                             <span>Toolbar
                                 <i data-bs-toggle="tooltip" data-bs-placement="right"
                                    title="Hiding toolbar will hide the bar with buttons like 'share', 'edit', 'data details', ..."
                                    class="bi bi-question-circle-fill help"></i></span>
-                            <select class="form-select" aria-label="Default select example">
-                                <option value="1">Hidden</option>
-                                <option value="2">Top</option>
-                                <option value="3">Bottom</option>
+                            <select class="form-select" aria-label="Default select example" x-model="toolbar" :disabled="edit">
+                                <option value="hidden">Hidden</option>
+                                <option value="top">Top</option>
+                                <option value="bottom">Bottom</option>
                             </select>
                         </div>
                         <div>
                             <span>Device</span>
-                            <select class="form-select" aria-label="Default select example">
-                                <option value="1">Default</option>
-                                <option value="2">Desktop</option>
-                                <option value="3">Tablet</option>
-                                <option value="4">Phone</option>
+                            <select class="form-select" aria-label="Default select example" x-model="device" :disabled="edit">
+                                <option value="default">Default</option>
+                                <option value="desktop">Desktop</option>
+                                <option value="tablet">Tablet</option>
+                                <option value="phone">Phone</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-9" style="min-height: 600px;">
-                        <script type='module'
-                                src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
-                        <!-- use tableau-authoring-viz for editable -->
-                        <tableau-viz id='tableau-viz'
-                                     src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
-                                     toolbar='top' hide-tabs disable-url-actions=false>
-
-                        </tableau-viz>
+                    <div class="col-9" style="min-height: 600px;"
+                         x-effect="code = generateEmbedding(tabs, edit, urlAction, width, height, toolbar, device)"
+                         x-html="code">
                     </div>
                 </div>
             </div>
 
             HTML code:
-            <pre><code class="language-html">
-&lt;script type='module'
-        src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'&gt;&lt;/script&gt;
-&lt;tableau-viz id='tableau-viz'
-             src='https://dub01.online.tableau.com/t/billigenceeurope/views/Superstore_17129049159130/Overview'
-             toolbar='hidden' hide-tabs disable-url-actions=false&gt;
-
-&lt;/tableau-viz&gt;
+            <pre><code class="language-html">&lt;script type='module' src='https://dub01.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'&gt;&lt;/script&gt;</code></pre>
+            And then:
+            <pre><code class="language-html"
+                       x-effect="content = generateEmbeddingExample(tabs, edit, urlAction, width, height, toolbar, device)"
+                       x-html="content">
             </code></pre>
         </div>
     </div>
@@ -508,7 +542,8 @@ print(token)
                         <p>Switch on the website interacting with the embedding:</p>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="apply-filter" checked>
-                            <label class="form-check-label help-label" for="apply-filter">Switch between Overview and Performance.
+                            <label class="form-check-label help-label" for="apply-filter">Switch between Overview and
+                                Performance.
                             </label>
                         </div>
                         <p>Read more about this in the <a target="_blank"
